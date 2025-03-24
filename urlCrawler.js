@@ -1,17 +1,29 @@
 const axios = require("axios");
 const cheerio = require("cheerio");
 
-const getHtmlUrlList = axios.get('https://growtopia.fandom.com/wiki/Category:Foreground_Blocks');
-getHtmlUrlList.then(html => {
-  const $ = cheerio.load(html.data);
+async function getUrl() {
+  let arr = []
+  const res = await axios.get('https://growtopia.fandom.com/wiki/Category:Foreground_Blocks');
+  const $ = cheerio.load(res.data);
   const urlList = $('.category-page__member-link');
-  
-  Object.values(urlList).forEach(data => {
+  Object.values(urlList).forEach((data) => {
     try {
-      console.log(data.attribs.href);
-      return data.attribs.href;
+      arr.push(data.attribs.href);
     } catch (error) {
       return null
     }
-  })
-})
+  });
+  return new Promise((resolve) => {
+    setTimeout(() => {
+      resolve(arr);
+    }, 1000)
+  });
+}
+
+async function test() {
+  let arr = []
+  arr = await getUrl();
+  console.log(arr);
+}
+
+test();
