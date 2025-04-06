@@ -8,9 +8,7 @@ async function getImage(url) {
   const $ = cheerio.load(res.data);
   const imgList = $('.growsprite').children()[0].attribs.src;
   return new Promise((resolve) => {
-    setTimeout(() => {
       resolve(imgList)
-    }, 100);
   });
 }
 
@@ -40,6 +38,7 @@ async function test() {
   let arr = []
   arr = await getUrl();
   console.log(itemsArr);
+  console.log(itemsArr.length);
 }
 
 test();
