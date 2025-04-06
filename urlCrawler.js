@@ -1,7 +1,7 @@
 const axios = require("axios");
 const cheerio = require("cheerio");
 
-const { CATEGORY } = require("./item.js")
+const { ITEMSARR, CATEGORY, ALPHABET } = require("./item.js")
 
 let itemsArr = [];
 
@@ -43,16 +43,33 @@ async function test() {
   console.log(itemsArr.length);
 }
 
-async function getApi(category) {
-  const res = await axios.get(`https://growtopia.fandom.com/api.php?action=query&format=json&prop=&titles=&generator=categorymembers&formatversion=2&gcmtitle=Category%3A${category}%20Blocks&gcmlimit=500&gcmstartsortkeyprefix=A&gcmendsortkeyprefix=B`);
+async function getApi(category, to, from) {
+  const res = await axios.get(`https://growtopia.fandom.com/api.php?action=query&format=json&prop=&titles=&generator=categorymembers&formatversion=2&gcmtitle=Category%3A${category}%20Blocks&gcmlimit=500&gcmstartsortkeyprefix=${to}&gcmendsortkeyprefix=${from}`);
   const dataArray = res.data.query.pages;
   Array.from(dataArray).forEach((data) => {
     const itemsObj = {}
     itemsObj.title = data.title;
-    itemsArr.push(itemsObj);
+    ITEMSARR.push(itemsObj);
   })
-  console.log(itemsArr);
+
+  console.log(ITEMSARR);
+  return new Promise((resolve) => {
+    resolve(ITEMSARR);
+  })
 }
 
-getApi(CATEGORY.block);
-getApi(CATEGORY.backGround);
+getApi(CATEGORY.backGround, "Q", "R");
+
+
+// async function getData() {
+//   let arr;
+//   Object.values(CATEGORY).forEach(async (category) => {
+//     for (let i = 0; i < ALPHABET.length; i++) {
+//       console.log(ALPHABET[i + 1]);
+//       arr = await getApi(CATEGORY.backGround, ALPHABET[i], ALPHABET[i + 1]);
+//     }
+//     console.log(ITEMSARR)
+//   })
+// }
+
+// getData();

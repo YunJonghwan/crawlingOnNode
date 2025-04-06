@@ -36,8 +36,8 @@ const ALPHABET = [
   'A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M', 'N', 'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z'
 ];
 const CATEGORY = {
-  block : 'Background',
-  backGround : 'Foreground'
+  block : 'Foreground',
+  backGround : 'Background',
 }
 
 export {ITEMSARR, ALPHABET, CATEGORY};
