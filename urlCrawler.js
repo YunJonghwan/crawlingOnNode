@@ -1,7 +1,7 @@
 const axios = require("axios");
 const cheerio = require("cheerio");
 
-const { items, itemsArr } = require('./item');
+let itemsArr = [];
 
 async function getImage(url) {
   const res = await axios.get(`https://growtopia.fandom.com${url}`);
@@ -21,7 +21,7 @@ async function getUrl() {
       const url = data.attribs.href;
       const name = data.children[0].data;
       const image = await getImage(url);
-      const item = new items(name, url, image);
+      const item = new Items(name, url, image);
       itemsArr.push(item);
     } catch (error) {
       return null
@@ -41,4 +41,16 @@ async function test() {
   console.log(itemsArr.length);
 }
 
-test();
+async function getApi() {
+  const res = await axios.get(`https://growtopia.fandom.com/api.php?action=query&format=json&prop=&titles=&generator=categorymembers&formatversion=2&gcmtitle=Category%3AForeground%20Blocks&gcmlimit=500&gcmstartsortkeyprefix=A&gcmendsortkeyprefix=B`);
+  const dataArray = res.data.query.pages;
+  let titles;
+  Array.from(dataArray).forEach((data) => {
+    const itemsObj = {}
+    itemsObj.title = data.title;
+    itemsArr.push(itemsObj);
+  })
+  console.log(itemsArr);
+}
+
+getApi();
