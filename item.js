@@ -1,48 +1,43 @@
-// class Items {
-//   constructor(name, url, image) {
-//     this.name = name;
-//     this.url = url;
-//     this.image = image;
-//   }
+class Items {
+  constructor(name, url, image) {
+    this.name = name;
+    this.url = url;
+    this.image = image;
+  }
 
-//   get name() {
-//     return this._name;
-//   }
+  get name() {
+    return this._name;
+  }
 
-//   set name(name) {
-//     this._name = name;
-//   }
+  set name(name) {
+    this._name = name;
+  }
 
-//   get url() {
-//     return this._url;
-//   }
+  get url() {
+    return this._url;
+  }
 
-//   set url(url) {
-//     this._url = url;
-//   }
+  set url(url) {
+    this._url = url;
+  }
 
-//   get image() {
-//     return this._image;
-//   }
+  get image() {
+    return this._image;
+  }
 
-//   set image(image) {
-//     this._image = image;
-//   }
+  set image(image) {
+    this._image = image;
+  }
 
-// }
-
-const ITEMSARR = {
-  block : [],
-  backGround : [],
 }
 
+const ITEMSARR = []
 const ALPHABET = [
   'A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M', 'N', 'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z'
 ];
+const CATEGORY = [
+  'Background',
+  'Foreground'
+]
 
-const CATEGORY = {
-  block : 'Foreground',
-  backGround : 'Background',
-}
-
-export {ITEMSARR, ALPHABET, CATEGORY};
+export { Items, ITEMSARR, ALPHABET, CATEGORY };
