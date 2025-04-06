@@ -44,13 +44,17 @@ async function test() {
 }
 
 async function getApi(category, to, from) {
-  const res = await axios.get(`https://growtopia.fandom.com/api.php?action=query&format=json&prop=&titles=&generator=categorymembers&formatversion=2&gcmtitle=Category%3A${category}%20Blocks&gcmlimit=500&gcmstartsortkeyprefix=${to}&gcmendsortkeyprefix=${from}`);
-  const dataArray = res.data.query.pages;
-  Array.from(dataArray).forEach((data) => {
-    const itemsObj = {}
-    itemsObj.title = data.title;
-    ITEMSARR.push(itemsObj);
-  })
+  try {
+    const res = await axios.get(`https://growtopia.fandom.com/api.php?action=query&format=json&prop=&titles=&generator=categorymembers&formatversion=2&gcmtitle=Category%3A${category}%20Blocks&gcmlimit=500&gcmstartsortkeyprefix=${to}&gcmendsortkeyprefix=${from}`);
+    const dataArray = res.data.query.pages;
+    Array.from(dataArray).forEach((data) => {
+      const itemsObj = {}
+      itemsObj.title = data.title;
+      ITEMSARR.push(itemsObj);
+    })
+  } catch (error) {
+    new Error(error);
+  }
 
   console.log(ITEMSARR);
   return new Promise((resolve) => {
@@ -58,18 +62,18 @@ async function getApi(category, to, from) {
   })
 }
 
-getApi(CATEGORY.backGround, "Q", "R");
+// getApi(CATEGORY.backGround, "Q", "R");
 
 
-// async function getData() {
-//   let arr;
-//   Object.values(CATEGORY).forEach(async (category) => {
-//     for (let i = 0; i < ALPHABET.length; i++) {
-//       console.log(ALPHABET[i + 1]);
-//       arr = await getApi(CATEGORY.backGround, ALPHABET[i], ALPHABET[i + 1]);
-//     }
-//     console.log(ITEMSARR)
-//   })
-// }
+async function getData() {
+  let arr;
+  Object.values(CATEGORY).forEach(async (category) => {
+    for (let i = 0; i < ALPHABET.length; i++) {
+      console.log(ALPHABET[i + 1]);
+      arr = await getApi(CATEGORY.backGround, ALPHABET[i], ALPHABET[i + 1]);
+    }
+    console.log(ITEMSARR)
+  })
+}
 
-// getData();
+getData();
