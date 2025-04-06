@@ -1,6 +1,8 @@
 const axios = require("axios");
 const cheerio = require("cheerio");
 
+const { CATEGORY } = require("./item.js")
+
 let itemsArr = [];
 
 async function getImage(url) {
@@ -8,7 +10,7 @@ async function getImage(url) {
   const $ = cheerio.load(res.data);
   const imgList = $('.growsprite').children()[0].attribs.src;
   return new Promise((resolve) => {
-      resolve(imgList)
+    resolve(imgList)
   });
 }
 
@@ -41,10 +43,9 @@ async function test() {
   console.log(itemsArr.length);
 }
 
-async function getApi() {
-  const res = await axios.get(`https://growtopia.fandom.com/api.php?action=query&format=json&prop=&titles=&generator=categorymembers&formatversion=2&gcmtitle=Category%3AForeground%20Blocks&gcmlimit=500&gcmstartsortkeyprefix=A&gcmendsortkeyprefix=B`);
+async function getApi(category) {
+  const res = await axios.get(`https://growtopia.fandom.com/api.php?action=query&format=json&prop=&titles=&generator=categorymembers&formatversion=2&gcmtitle=Category%3A${category}%20Blocks&gcmlimit=500&gcmstartsortkeyprefix=A&gcmendsortkeyprefix=B`);
   const dataArray = res.data.query.pages;
-  let titles;
   Array.from(dataArray).forEach((data) => {
     const itemsObj = {}
     itemsObj.title = data.title;
@@ -53,4 +54,5 @@ async function getApi() {
   console.log(itemsArr);
 }
 
-getApi();
+getApi(CATEGORY.block);
+getApi(CATEGORY.backGround);
