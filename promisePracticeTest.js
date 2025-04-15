@@ -22,9 +22,8 @@ async function testFetch(category, to, from) {
 
 
 async function test() {
-  for(const key in CATEGORY ) {
-    await testFetch(CATEGORY[key], "A", "B");
-  }
+  //todo 카테고리를 한번에 두지 않고 Block Background를 나눠서 동작하도록 하자
+  //todo 한번에 하니깐 for문안에 for문이 되서 너무 복잡해지고 지저분해 지기때문에 나눠서 하기로 함
   console.log(ITEMSARR);
   console.log(ITEMSARR.block.length);
   console.log(ITEMSARR.backGround.length);
