@@ -22,7 +22,9 @@ async function testFetch(category, to, from) {
 
 
 async function test() {
-  const fetchTest = await testFetch(CATEGORY.block, "A", "B");
+  for(const key in CATEGORY ) {
+    console.log(CATEGORY[key]);
+  }
   console.log(ITEMSARR);
   console.log(ITEMSARR.block.length);
 }
