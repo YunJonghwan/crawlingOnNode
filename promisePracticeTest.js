@@ -23,7 +23,7 @@ async function testFetch(category, to, from) {
 
 async function test() {
   const fetchTest = await testFetch(CATEGORY.block, "A", "B");
-  await Promise.allSettled(fetchTest)
+  await Promise.allSettled(fetchTest);
   console.log(ITEMSARR);
   console.log(ITEMSARR.block.length);
 }
