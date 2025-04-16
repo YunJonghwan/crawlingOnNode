@@ -1,32 +1,49 @@
 import axios from 'axios';
 import { ALPHABET, ITEMSARR, CATEGORY } from './item copy.js';
 
-async function testFetch(category, to, from) {
+// 특정 범위의 데이터를 가져오는 함수
+async function fetchByRange(category, start, end) {
   try {
-    const res = await axios.get(`https://growtopia.fandom.com/api.php?action=query&format=json&prop=&titles=&generator=categorymembers&formatversion=2&gcmtitle=Category%3A${category}%20Blocks&gcmlimit=500&gcmstartsortkeyprefix=${to}&gcmendsortkeyprefix=${from}`);
-    const dataArray = res.data.query.pages;
+    const res = await axios.get(
+      `https://growtopia.fandom.com/api.php?action=query&format=json&prop=&titles=&generator=categorymembers&formatversion=2&gcmtitle=Category%3A${category}%20Blocks&gcmlimit=500&gcmstartsortkeyprefix=${start}&gcmendsortkeyprefix=${end}`
+    );
+    const dataArray = res.data.query.pages || [];
     dataArray.forEach((data) => {
-      const itemsObj = {}
+      const itemsObj = {};
       itemsObj.title = data.title;
       itemsObj.category = category;
-      if(category === CATEGORY.block) {
+      if (category === CATEGORY.block) {
         ITEMSARR.block.push(itemsObj);
-      }else {
+      } else {
         ITEMSARR.backGround.push(itemsObj);
       }
-    })
+    });
   } catch (error) {
-    console.log(error);
+    console.error(`Error fetching range ${start}-${end} for category ${category}:`, error);
   }
 }
 
-
-async function test() {
-  //todo 카테고리를 한번에 두지 않고 Block Background를 나눠서 동작하도록 하자
-  //todo 한번에 하니깐 for문안에 for문이 되서 너무 복잡해지고 지저분해 지기때문에 나눠서 하기로 함
-  console.log(ITEMSARR);
-  console.log(ITEMSARR.block.length);
-  console.log(ITEMSARR.backGround.length);
+// 카테고리별로 데이터를 가져오는 함수
+async function fetchCategoryData(category) {
+  for (let i = 0; i < ALPHABET.length - 1; i++) {
+    const start = ALPHABET[i];
+    const end = ALPHABET[i + 1];
+    await fetchByRange(category, start, end);
+  }
 }
 
-test();
+// 전체 데이터를 가져오는 함수
+async function fetchAllData() {
+  for (const categoryKey in CATEGORY) {
+    const category = CATEGORY[categoryKey];
+    console.log(`Fetching data for category: ${category}`);
+    await fetchCategoryData(category);
+  }
+
+  // 결과 출력
+  console.log('ITEMSARR:', ITEMSARR);
+  console.log('Block count:', ITEMSARR.block.length);
+  console.log('Background count:', ITEMSARR.backGround.length);
+}
+
+fetchAllData();
