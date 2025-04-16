@@ -1,5 +1,5 @@
 import axios from 'axios';
-const cheerio = require("cheerio");
+import * as cheerio from "cheerio";
 import { ALPHABET, ITEMSARR, CATEGORY } from './item copy.js';
 
 // 특정 범위의 데이터를 가져오는 함수
@@ -55,18 +55,25 @@ async function fetchAllData() {
   console.log('Background count:', ITEMSARR.backGround.length);
 }
 
-async function getImage(url) {
+async function getImage(title) {
   try {
-    const res = await axios.get(`https://growtopia.fandom.com/wiki/${url}`);
+    const url = `https://growtopia.fandom.com/wiki/${title}`;
+    const res = await axios.get(url);
     const $ = cheerio.load(res.data);
-    const imgList = $('.growsprite').children()[0].attribs.src;
-    return new Promise((resolve) => {
-        resolve(imgList);
-    });
-  } catch (error) {
-    console.error(error);
-  }
 
+    // 이미지 URL 추출
+    const imgElement = $('.growsprite').children().first();
+    const imgSrc = imgElement.attr('src');
+    if (!imgSrc) {
+      console.warn(`No image found for title: ${title}`);
+      return null;
+    }
+
+    return imgSrc;
+  } catch (error) {
+    console.error(`Error fetching image for title: ${title}`, error);
+    return null;
+  }
 }
 
 fetchAllData();
