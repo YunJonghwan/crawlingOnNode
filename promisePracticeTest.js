@@ -64,6 +64,7 @@ async function getImage(title) {
     // 이미지 URL 추출
     const imgElement = $('.growsprite').children().first();
     const imgSrc = imgElement.attr('src');
+    console.log(`이미지 불러오는 중 : ${title}\n이미지 경로: ${imgSrc}`);
     if (!imgSrc) {
       console.warn(`No image found for title: ${title}`);
       return null;
