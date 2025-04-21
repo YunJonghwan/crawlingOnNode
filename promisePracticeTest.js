@@ -54,6 +54,8 @@ async function fetchAllData() {
   }
 
   // 결과 출력
+  const jsonData = JSON.stringify(ITEMSARR, null, 2);
+  fs.writeFileSync('item.json', jsonData);
   console.log('ITEMSARR:', ITEMSARR);
   console.log('Block count:', ITEMSARR.block.length);
   console.log('Background count:', ITEMSARR.backGround.length);
