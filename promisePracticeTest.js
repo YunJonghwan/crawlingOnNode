@@ -1,6 +1,7 @@
 import axios from 'axios';
 import * as cheerio from "cheerio";
 import { ALPHABET, ITEMSARR, CATEGORY } from './item copy.js';
+import fs from 'fs'
 
 // 특정 범위의 데이터를 가져오는 함수
 async function fetchByRange(category, start, end) {
@@ -40,6 +41,9 @@ async function fetchAllData() {
     console.log(`Fetching data for category: ${category}`);
     await fetchCategoryData(category);
   }
+  
+  ITEMSARR.block.sort((a, b) => a.title.localeCompare(b.title));
+  ITEMSARR.backGround.sort((a, b) => a.title.localeCompare(b.title));
 
   // 데이터 수집 완료 후 이미지 가져오기
   for (const item of ITEMSARR.block) {
